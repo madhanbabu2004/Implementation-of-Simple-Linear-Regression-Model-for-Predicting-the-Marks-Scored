@@ -22,38 +22,49 @@ RegisterNumber:  212222230075
 */
 ```
 ```
+Output:
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+from sklearn metrics import mean_absolute_error,mean_squared_error
 df=pd.read_csv('student_scores.csv')
 df.head()
-
 df.tail()
-df.info()
-X=df.iloc[:,1].values
-print(X)
-Y=df.iloc[:,:-1].values
-print(Y)
+x = df.iloc[:,:-1].values
+x
+y = df.iloc[:,1].values
+y
 from sklearn.model_selection import train_test_split
-X_train,X_test,Y_train,Y_test=train_test_split(X,Y,test_size=1/3,random_state=0)
-
-X = df['Hours'].values.reshape(-1,1)
-y = df['Scores'].values.reshape(-1,1)
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=1/3,random_state=0)
 from sklearn.linear_model import LinearRegression
 regressor = LinearRegression()
-regressor.fit(X_train, y_train)
-y_pred = regressor.predict(X_test)
-plt.scatter(X_test, y_test, color='gray')
-plt.plot(X_test, y_pred, color='red', linewidth=2)
+regressor.fit(x_train,y_train)
+y_pred = regressor.predict(x_test)
+y_pred
+y_test
+
+plt.scatter(x_train,y_train,color='black')
+plt.plot(x_train,regressor.predict(x_train),color='purple')
+plt.title("Hours vs Scores(Training set)")
+plt.xlabel("Hours")
+plt.ylabel("Scores")
 plt.show()
 
-from sklearn.metrics import mean_squared_error, r2_score
-print('Mean squared error: %.2f' % mean_squared_error(y_test, y_pred))
-print('Coefficient of determination: %.2f' % r2_score(y_test, y_pred))
+plt.scatter(x_test,y_test,color='red')
+plt.plot(x_train,regressor.predict(x_train),color='blue')
+plt.title("Hours vs Scores(Testing set)")
+plt.xlabel("Hours")
+plt.ylabel("Scores")
+plt.show()
+
+mse=mean_squared_erro(y_test,y_pred)
+print('MSE = ',mse)
+
+mae=mean_absolute_error(y_test,y_pred)
+print('MAE = ',mae)
+
+rmse=np.sqrt(mse)
+print("RMSE= ",rmse)
 ```
 
 ## Output:
@@ -65,7 +76,8 @@ print('Coefficient of determination: %.2f' % r2_score(y_test, y_pred))
 ![output](./f.png)
 ![output](./g.png)
 ![output](./h.png)
-
+![output](./i.png)
+![output](./j.png)
 
 ## Result:
 Thus the program to implement the simple linear regression model for predicting the marks scored is written and verified using python programming.
